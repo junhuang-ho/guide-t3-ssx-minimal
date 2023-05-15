@@ -8,7 +8,8 @@ import NextAuth, {
 import { CtxOrReq } from "next-auth/client/_utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { SSXNextAuth } from "@spruceid/ssx-react/next-auth/backend";
+// import { SSXNextAuth } from "@spruceid/ssx-react/next-auth/backend";
+import { SSXNextAuthCustom } from "~/components/SSXNextAuthCustom";
 import { SSXServer } from "@spruceid/ssx-server";
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -72,7 +73,8 @@ declare module "next-auth" {
 export const authOptions: (ctxReq: CtxOrReq) => NextAuthOptions = ({ req }) => {
   const ssxConfig = {};
   const ssx = new SSXServer(ssxConfig);
-  const { credentials, authorize } = SSXNextAuth(req as NextApiRequest, ssx);
+  //   const { credentials, authorize } = SSXNextAuth(req as NextApiRequest, ssx);
+  const { credentials, authorize } = SSXNextAuthCustom(ssx);
 
   const providers = [
     CredentialsProvider({

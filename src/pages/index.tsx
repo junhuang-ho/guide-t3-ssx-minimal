@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   //   const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const { push: navigateTo } = useRouter();
   const { data: session, status } = useSession();
-  const { ssx, ssxLoaded } = useSSX();
+  const { ssx, ssxLoaded: isSSXLoaded } = useSSX();
 
   const signIn = async () => {
     try {
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
     } catch (e) {
       console.error(e);
     }
-    // await nextAuthSignOut({ callbackUrl: "/" }); // { callbackUrl: "/" }
+    await nextAuthSignOut(); // { callbackUrl: "/" }
   };
 
   const { mutateAsync: testAddressPublic } =
@@ -91,8 +91,12 @@ const Home: NextPage = () => {
         <button
           // eslint-disable-next-line
           onClick={async () => {
-            const addr = await testAddressProtected?.();
-            console.log("ADDR protected", addr);
+            try {
+              const addr = await testAddressProtected?.();
+              console.log("ADDR protected", addr);
+            } catch (e) {
+              console.error(e);
+            }
           }}
         >
           test protected
